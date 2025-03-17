@@ -122,3 +122,116 @@
 1. При нажатии на кнопку "Экспорт расходов в csv" выгружать все данные о расходах в csv файл и сохранять на устройстве с toast сообщением пути (дата;категория;сумма)
 имя файла - дата_расходы (0/3/5)
 2. При нажатии на кнопку "Выход из аккаунта", удалять данные для автоматического входа и направить пользователя на экран авторизации (1)
+
+## Моковое API
+## Регистрация POST /registration
+
+| Поле     | Тип    | Описание       |
+|----------|--------|----------------|
+| email    | String | Почтовый адрес |
+| password | String | Пароль         |
+
+Тело запроса
+
+```json
+{
+   "email": "test@gmail.com",
+   "password": "1234567"
+}
+```
+
+| Поле          | Тип    | Описание                                 |
+|---------------|--------|------------------------------------------|
+| access_token  | String | Токен для доступа к запросам             |
+| refresh_token | String | Токен для запроса обновления accessToken |
+| user_id       | Long   | Уникальный идентификатор пользователя    |
+
+Тело при успешном ответе
+
+```json
+{
+   "access_token": "qbAwrHtAbV1Ec9UA4xbFRzH7SiYIlHekPU3wRbJEAyxak4lk1",
+   "refresh_token": "k77V6bTYlAiXNRejTbEkyKfvPeQoyL75ifOpfb5vG4AHSA8Yl",
+   "user_id": 1
+}
+```
+
+Возможные коды ответов:
+
+- 201 Created
+- 409 Пользователь уже существует
+- 400 Некорректный email
+- 400 Пароль менее 7 символов
+
+## Авторизация POST /auth
+
+| Поле     | Тип    | Описание       |
+|----------|--------|----------------|
+| email    | String | Почтовый адрес |
+| password | String | Пароль         |
+
+Тело запроса
+
+```json
+{
+   "email": "test@gmail.com",
+   "password": "1234567"
+}
+```
+
+| Поле          | Тип    | Описание                                 |
+|---------------|--------|------------------------------------------|
+| access_token  | String | Токен для доступа к запросам             |
+| refresh_token | String | Токен для запроса обновления accessToken |
+| user_id       | Long   | Уникальный идентификатор пользователя    |
+
+Тело при успешном ответе
+
+```json
+{
+   "access_token": "qbAwrHtAbV1Ec9UA4xbFRzH7SiYIlHekPU3wRbJEAyxak4lk1",
+   "refresh_token": "k77V6bTYlAiXNRejTbEkyKfvPeQoyL75ifOpfb5vG4AHSA8Yl",
+   "user_id": 1
+}
+```
+
+Возможные коды ответов:
+
+- 200 OK
+- 400 Некорректный email
+- 400 Пароль менее 7 символов
+
+## Обновление токена POST /refresh
+
+| Поле          | Тип    | Описание                                 |
+|---------------|--------|------------------------------------------|
+| user_id       | Long   | Уникальный идентификатор пользователя    |
+| refresh_token | String | Токен для запроса обновления accessToken |
+
+Тело запроса
+
+```json
+{
+   "user_id": "test@gmail.com",
+   "refresh_token": "k77V6bTYlAiXNRejTbEkyKfvPeQoyL75ifOpfb5vG4AHSA8Yl"
+}
+```
+Тело при успешном ответе
+
+| Поле          | Тип    | Описание                                 |
+|---------------|--------|------------------------------------------|
+| access_token  | String | Токен для доступа к запросам             |
+| refresh_token | String | Токен для запроса обновления accessToken |
+
+```json
+{
+   "access_token": "qbAwrHtAbV1Ec9UA4xbFRzH7SiYIlHekPU3wRbJEAyxak4lk1",
+   "refresh_token": "k77V6bTYlAiXNRejTbEkyKfvPeQoyL75ifOpfb5vG4AHSA8Yl"
+}
+```
+## Восстановление пароля POST /recovery
+Header: "email"
+
+Возможные коды ответов:
+- 200 OK
+- 400 Некорректный email
